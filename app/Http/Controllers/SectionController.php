@@ -1,3 +1,6 @@
+<?php
+
+
 namespace App\Http\Controllers;
 
 use App\Models\Section;
@@ -7,42 +10,49 @@ class SectionController extends Controller
 {
     public function index()
     {
-       $sections = Section::all();
-        return view('sections.index', compact('sections'));
         return response()->json([
-    'message' => 'hellon the section API'
-    '
-]);
+            'data' => Section::all()
+        ]);
     }
 
     public function show($id)
     {
-        $section = Section::findOrFail($id);
-        return view('sections.show', compact('section'));
+        return response()->json(
+            Section::findOrFail($id)
+        );
     }
 
     public function store(Request $request)
     {
-        Section::create([
-            'name' => $request->name,
-            'course_id' => $request->course_id
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
         ]);
-        return redirect()->back();
+
+        $section = Section::create($validated);
+
+        return response()->json($section, 201);
     }
 
     public function update(Request $request, $id)
     {
         $section = Section::findOrFail($id);
-        $section->update([
-            'name' => $request->name,
-            'course_id' => $request->course_id
+
+
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'course_id' => 'sometimes|required|exists:courses,id',
         ]);
-        return redirect()->back();
+
+        $section->update($validated);
+
+        return response()->json($section);
     }
 
     public function destroy($id)
     {
         Section::findOrFail($id)->delete();
-        return redirect()->back();
+
+        return response()->json(['message' => 'deleted']);
     }
 }
