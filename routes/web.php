@@ -1,18 +1,5 @@
-<?php
+use App\Http\Controllers\SectionController;
 
-use Illuminate\Support\Facades\Route;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::get('/sections',function () {
+    return view('welcome');
+});
