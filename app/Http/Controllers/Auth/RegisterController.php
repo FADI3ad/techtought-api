@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\Student;
 use App\Models\User;
 
 
@@ -16,6 +17,10 @@ class RegisterController extends Controller
         $validatedData = $request->validated();
 
         $user = User::create($validatedData);
+
+        $student = Student::create([
+            "user_id"=>$user->id
+        ]);
 
         $token = $user->createToken('mobile-app-token')->plainTextToken;
 
@@ -34,5 +39,7 @@ class RegisterController extends Controller
                 'token' => $token
             ]
         ], 201);
+
     }
+
 }
