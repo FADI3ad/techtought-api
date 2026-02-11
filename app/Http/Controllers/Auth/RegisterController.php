@@ -16,10 +16,11 @@ class RegisterController extends Controller
 
         $validatedData = $request->validated();
 
+
         $user = User::create($validatedData);
 
         $student = Student::create([
-            "user_id"=>$user->id
+            "user_id" => $user->id
         ]);
 
         $token = $user->createToken('mobile-app-token')->plainTextToken;
@@ -31,15 +32,10 @@ class RegisterController extends Controller
                 'user' => [
                     'id' => $user->id,
                     'name' => $user->name,
-                    'email' => $user->email,
-                    'phone' => $user->phone,
-                    'country' => $user->country,
                     'image' => $user->image,
                 ],
                 'token' => $token
             ]
         ], 201);
-
     }
-
 }

@@ -9,9 +9,6 @@ use App\Http\Requests\Auth\LoginRequest;
 
 
 
-
-
-
 class LoginController
 {
 
@@ -39,15 +36,12 @@ class LoginController
                 'user' => [
                     'id' => $user->id,
                     'name' => $user->name,
-                    'email' => $user->email,
-                    'phone' => $user->phone,
-                    'country' => $user->country,
                     'image' => $user->image,
                 ],
                 'token' => $token
             ]
         ], 200);
 
-
     }
+
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->char('country', 2)->default('EG');
             $table->timestamp('email_verified_at')->nullable();
+            $table->enum('role', ['admin', 'student', 'vendor','instructor'])->default('student');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
