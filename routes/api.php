@@ -7,4 +7,4 @@ use App\Http\Controllers\CourseController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-Route::get('courses', [CourseController::class,'index']);
+Route::get('/courses', CourseController::class,"index");
