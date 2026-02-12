@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
 
 
 
-class LoginController
+class LoginController extends Controller
 {
 
     public function login(LoginRequest $request)
@@ -18,7 +19,7 @@ class LoginController
 
         $password = $request->input('password');
 
-        $user = User::where('email', '=', $email)->firstOrFail();
+        $user = User::where('email', '=', $email)->first();
 
         if (!$user || !Hash::check($password, $user->password)) {
             return response()->json([
