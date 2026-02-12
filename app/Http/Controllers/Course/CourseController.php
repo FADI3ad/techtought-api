@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
@@ -13,28 +13,18 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::with('category', 'sections')
-            ->latest()
-            ->paginate(10);
-
+        $courses = Course::paginate(10);
         return response()->json([
             'status' => 'success',
             'data' => $courses
         ], 200);
+
     }
 
     public function store(StoreCourseRequest $request)
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $newImageName = time() . '-' . $image->getClientOriginalName();
-            $image->storeAs('courses', $newImageName, 'public');
-            $validated['image'] = $newImageName;
-        }
-
-        $validated['instructor_id'] = Auth::id();
 
         $course = Course::create($validated);
 
@@ -45,19 +35,17 @@ class CourseController extends Controller
         ], 201);
     }
 
-    
+
     public function show($id)
     {
-        $course = Course::with('category', 'sections')
-            ->findOrFail($id);
-
+        $course = Course::find($id);
         return response()->json([
             'status' => 'success',
             'data' => $course
         ], 200);
     }
 
-    
+
     public function update(UpdateCourseRequest $request, $id)
     {
         $course = Course::findOrFail($id);
@@ -71,17 +59,7 @@ class CourseController extends Controller
 
         $validated = $request->validated();
 
-        if ($request->hasFile('image')) {
 
-            if ($course->image) {
-                Storage::delete("public/courses/$course->image");
-            }
-
-            $image = $request->file('image');
-            $newImageName = time() . '-' . $image->getClientOriginalName();
-            $image->storeAs('courses', $newImageName, 'public');
-            $validated['image'] = $newImageName;
-        }
 
         $course->update($validated);
 
@@ -92,7 +70,7 @@ class CourseController extends Controller
         ], 200);
     }
 
-    
+
     public function destroy($id)
     {
         $course = Course::findOrFail($id);

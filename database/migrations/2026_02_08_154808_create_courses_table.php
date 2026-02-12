@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->id(); 
-            $table->foreignId('category_id')->constrained(); 
-            $table->string('title'); 
+            $table->id();
+            // $table->foreignId('category_id')->constrained();
+            $table->string('title');
             $table->text('descripton')->nullable();
             $table->string('images')->nullable();
-             $table->string('language'); 
+             $table->string('language');
              $table->float('rate')->default(0);
-              $table->decimal('price')->default(0); 
+              $table->decimal('price')->default(0);
               $table->text('requirements')->nullable();
-              $table->foreignId('instructor_id')->constrained();
+            //   $table->foreignId('instructor_id')->constrained();
             $table->boolean('is_free')->default(false);
             $table->timestamps();
         });
