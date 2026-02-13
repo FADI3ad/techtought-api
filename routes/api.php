@@ -16,10 +16,14 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 
+
+
 //Categories
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
+Route::get('/categories', [CategoryController::class, 'index']); // dont forget do this
 Route::post('/categories', [CategoryController::class, 'store']);
+Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
+Route::put('/categories/{category:slug}', [CategoryController::class, 'update']);
+Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy']);
 
 
 

@@ -4,7 +4,12 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCategoryRequest extends FormRequest
+
+
+
+
+
+class UpdateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,11 +38,13 @@ class StoreCategoryRequest extends FormRequest
         return [
             //name
             'name.required' => 'Category name is required.',
-            'name.string' => 'Category name must be a string.',
+            'name.string' => 'Category name must be a text.',
             'name.min' => 'Category name must be at least 3 characters.',
             'name.max' => 'Category name must not exceed 100 characters.',
             'name.regex' => 'Category name must not contain numbers.',
-            'name.unique' => 'Category name already exists.',
+            'name.unique'   => 'Another category with this name already exists.',
+
+
 
         ];
     }
