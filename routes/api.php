@@ -6,10 +6,12 @@ use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\SubCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Course\CourseController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
 
 
 
@@ -34,5 +36,13 @@ Route::post('/subcategories', [SubCategoryController::class, 'store']);
 Route::get('/subcategories/{subcategory:slug}', [SubCategoryController::class, 'show']);
 Route::put('/subcategories/{subcategory:slug}', [SubCategoryController::class, 'update']);
 Route::delete('/subcategories/{subcategory:slug}' , [SubCategoryController::class, 'destroy']);
+
+
+//courses
+Route::get('/courses', [CourseController::class, 'index']); // dont forget do this
+Route::post('/courses', [CourseController::class, 'store']);
+Route::get('/courses/{course:slug}', [CourseController::class, 'show']);
+Route::put('/courses/{course:slug}', [CourseController::class, 'update']);
+Route::delete('/courses/{course:slug}' , [CourseController::class, 'destroy']);
 
 
