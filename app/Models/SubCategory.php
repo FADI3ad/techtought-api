@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Category extends Model
+class SubCategory extends Model
 {
-
-
-
-
-
-
-    protected $table = 'categories';
+    protected $table = 'sub_categories';
 
     protected static function booted()
     {
@@ -28,15 +23,18 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'category_id'
     ];
 
 
 
 
-    public function subCategories() {
-        return $this->hasMany(SubCategory::class);
-    }
 
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
 
 }

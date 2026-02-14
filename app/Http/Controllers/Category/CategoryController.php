@@ -24,6 +24,7 @@ class CategoryController extends Controller
             'message' => 'Category created successfully',
             'data' => [
                 "category" => [
+                    "id"=>$category->id,
                     "name" => $category->name,
                     "slug" => $category->slug
                 ]
@@ -38,6 +39,7 @@ class CategoryController extends Controller
             'message' => 'Category retrieved successfully',
             'data' => [
                 "category" => [
+                    "id"=>$category->id,
                     "name" => $category->name,
                     "slug" => $category->slug
                 ]
@@ -56,6 +58,7 @@ class CategoryController extends Controller
             'message' => 'Category updated successfully',
             'data' => [
                 'category' => [
+                    "id"=>$category->id,
                     'name' => $category->name,
                     'slug' => $category->slug,
                 ]
