@@ -9,11 +9,6 @@ use Illuminate\Support\Str;
 class Category extends Model
 {
 
-
-
-
-
-
     protected $table = 'categories';
 
     protected static function booted()
@@ -27,6 +22,7 @@ class Category extends Model
     }
 
 
+
     protected $fillable = [
         'name',
     ];
@@ -34,11 +30,8 @@ class Category extends Model
 
 
 
-    public function subCategories() {
+    public function subCategories()
+    {
         return $this->hasMany(SubCategory::class);
     }
-
-
-
-
 }

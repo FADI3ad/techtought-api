@@ -10,10 +10,22 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function index() {}
 
 
-
+    public function index()
+    {
+        $categories = Category::select(['id', 'slug', 'name'])->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Categories retrieved successfully',
+            'data' => [
+                "categories" => $categories
+            ],
+            'meta' => [
+                'total' => $categories->count()
+            ]
+        ], 200);
+    }
 
     public function store(StoreCategoryRequest $request)
     {
@@ -24,9 +36,9 @@ class CategoryController extends Controller
             'message' => 'Category created successfully',
             'data' => [
                 "category" => [
-                    "id"=>$category->id,
-                    "name" => $category->name,
-                    "slug" => $category->slug
+                    "id" => $category->id,
+                    "slug" => $category->slug,
+                    "name" => $category->name
                 ]
             ]
         ], 201);
@@ -39,9 +51,9 @@ class CategoryController extends Controller
             'message' => 'Category retrieved successfully',
             'data' => [
                 "category" => [
-                    "id"=>$category->id,
-                    "name" => $category->name,
-                    "slug" => $category->slug
+                    "id" => $category->id,
+                    "slug" => $category->slug,
+                    "name" => $category->name
                 ]
             ]
         ], 200);
@@ -58,9 +70,9 @@ class CategoryController extends Controller
             'message' => 'Category updated successfully',
             'data' => [
                 'category' => [
-                    "id"=>$category->id,
-                    'name' => $category->name,
-                    'slug' => $category->slug,
+                    "id" => $category->id,
+                    "slug" => $category->slug,
+                    "name" => $category->name
                 ]
             ]
         ], 200);
@@ -74,4 +86,35 @@ class CategoryController extends Controller
             'message' => 'Category deleted successfully'
         ], 200);
     }
+
+
+
+
+
+    public function showWithSubcategories(Category $category)
+    {
+        $category->load(['subCategories:id,category_id,slug,name']);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category retrieved successfully',
+            'data' => [
+                "category" => [
+                    "id" => $category->id,
+                    "slug" => $category->slug,
+                    "name" => $category->name,
+                    "subcategories" => $category->subCategories
+                ]
+            ]
+        ], 200);
+    }
+
+
+    
+
+
+
+
+
+
+
 }
