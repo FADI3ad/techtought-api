@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\SubCategoryController;
+use App\Http\Controllers\video\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Course\CourseController;
@@ -45,4 +46,11 @@ Route::get('/courses/{course:slug}', [CourseController::class, 'show']);
 Route::put('/courses/{course:slug}', [CourseController::class, 'update']);
 Route::delete('/courses/{course:slug}' , [CourseController::class, 'destroy']);
 
+
+// Videos
+Route::get('/videos', [VideoController::class, 'index']);
+Route::post('/videos', [VideoController::class, 'store']);
+Route::get('/videos/{video}', [VideoController::class, 'show']);
+Route::put('/videos/{video}', [VideoController::class, 'update']);
+Route::delete('/videos/{video}', [VideoController::class, 'destroy']);
 
