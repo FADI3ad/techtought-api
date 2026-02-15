@@ -3,107 +3,75 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Course\StoreCourseRequest;
+use App\Http\Requests\Course\UpdateCourseRequest;
 use App\Models\Course;
-use App\Http\Requests\StoreCourseRequest;
-use App\Http\Requests\UpdateCourseRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
-    public function index()
-    {
-        $courses = Course::paginate(10);
-        return response()->json([
-            'status' => 'success',
-            'data' => $courses
-        ], 200);
 
-    }
 
     public function store(StoreCourseRequest $request)
     {
-        $validated = $request->validated();
-
-
-        $course = Course::create($validated);
+        $course = Course::create($request->validated());
 
         return response()->json([
             'status' => 'success',
             'message' => 'Course created successfully',
-            'data' => $course
+            'data' => [
+                "course" => [
+                    "id" => $course->id,
+                    "slug" => $course->slug,
+                    "title" => $course->title,
+                    "description" => $course->description,
+                    "image" => $course->image_path,
+                    "requirements" => $course->requirements,
+                    "language" => $course->lang,
+                    "is_free" => $course->is_free,
+                    "price" => $course->price,
+                    "subcategory" => $course->subCategory->name
+                    // "instructor_id" => $course->instructor_id,
+                ]
+            ]
         ], 201);
     }
 
 
-    public function show($id)
+
+    public function show(Course $course)
     {
-        $course = Course::find($id);
         return response()->json([
             'status' => 'success',
-            'data' => $course
-        ], 200);
+            'message' => 'Course retrieved successfully',
+            'data' => [
+                "course" => [
+                    "id" => $course->id,
+                    "slug" => $course->slug,
+                    "title" => $course->title,
+                    "description" => $course->description,
+                    "image" => $course->image_path,
+                    "is_free" => $course->is_free,
+                    "price" => $course->price,
+                    "subcategory" => $course->subCategory->name
+                    // "instructor_id" => $course->instructor_id,
+                ]
+            ]
+        ], 201);
     }
 
 
-    public function update(UpdateCourseRequest $request, $id)
+    public function update(UpdateCourseRequest $request, $id) {}
+
+
+    public function destroy(Course $course)
     {
-        $course = Course::findOrFail($id);
-
-        if ($course->instructor_id != Auth::id()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized'
-            ], 403);
-        }
-
-        $validated = $request->validated();
-
-
-
-        $course->update($validated);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Course updated successfully',
-            'data' => $course
-        ], 200);
-    }
-
-
-    public function destroy($id)
-    {
-        $course = Course::findOrFail($id);
-
-        if ($course->instructor_id != Auth::id()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized'
-            ], 403);
-        }
-
-        if ($course->image) {
-            Storage::delete("public/courses/$course->image");
-        }
-
         $course->delete();
 
         return response()->json([
             'status' => 'success',
             'message' => 'Course deleted successfully'
         ], 200);
+
     }
 
-    public function myCourses()
-    {
-        $courses = Course::where('instructor_id', Auth::id())
-            ->with('category', 'sections')
-            ->latest()
-            ->paginate(10);
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $courses
-        ], 200);
-    }
 }
