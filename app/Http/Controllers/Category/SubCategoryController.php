@@ -11,7 +11,21 @@ use App\Models\SubCategory;
 class SubCategoryController extends Controller
 {
 
+    public function index()
+    {
+        $subCategories = SubCategory::select(['id', 'slug', 'name'])->get();
 
+        return response()->json([
+            'status' => 'success',
+            'message' => 'SubCategories retrieved successfully',
+            'data' => [
+                "subcategories" => $subCategories
+            ],
+            'meta' => [
+                'total' => $subCategories->count()
+            ]
+        ], 200);
+    }
     public function store(StoreSubCategoryRequest $request)
     {
         $subCategory = SubCategory::create($request->validated());
@@ -74,5 +88,28 @@ class SubCategoryController extends Controller
             'message' => 'Category deleted successfully'
         ], 200);
     }
-    
+
+    public function showWithCourses(SubCategory $subcategory)
+    {
+        $subcategory->load([
+            'courses:id,sub_category_id,slug,title'
+        ]);
+
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category retrieved successfully',
+            'data' => [
+                "subcategory" => [
+                    "id" => $subcategory->id,
+                    "slug" => $subcategory->slug,
+                    "name" => $subcategory->name,
+                    "courses" => $subcategory->courses,
+                    'meta' => [
+                        'total courses' => $subcategory->courses->count()
+                    ]
+                ]
+            ]
+        ], 200);
+    }
 }

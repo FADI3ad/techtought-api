@@ -102,19 +102,12 @@ class CategoryController extends Controller
                     "id" => $category->id,
                     "slug" => $category->slug,
                     "name" => $category->name,
-                    "subcategories" => $category->subCategories
+                    "subcategories" => $category->subCategories,
+                    'meta' => [
+                        'total subcategories' => $category->subCategories->count()
+                    ]
                 ]
             ]
         ], 200);
     }
-
-
-    
-
-
-
-
-
-
-
 }

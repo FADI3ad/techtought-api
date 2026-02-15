@@ -33,11 +33,14 @@ Route::get('/categories/{category:slug}/subcategories', [CategoryController::cla
 
 
 //SubCategories
-Route::get('/subcategories', [SubCategoryController::class, 'index']); // dont forget do this
+Route::get('/subcategories', [SubCategoryController::class, 'index']);
 Route::post('/subcategories', [SubCategoryController::class, 'store']);
 Route::get('/subcategories/{subcategory:slug}', [SubCategoryController::class, 'show']);
 Route::put('/subcategories/{subcategory:slug}', [SubCategoryController::class, 'update']);
 Route::delete('/subcategories/{subcategory:slug}' , [SubCategoryController::class, 'destroy']);
+Route::get('/subcategories/{subcategory:slug}/courses', [SubCategoryController::class, 'showWithCourses']);
+
+
 
 
 //courses
