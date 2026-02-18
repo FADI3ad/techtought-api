@@ -8,6 +8,7 @@ use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Models\Category;
 
 
+
 class CategoryController extends Controller
 {
 
@@ -29,8 +30,9 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        $category = Category::create($request->validated());
 
+
+        $category = Category::create($request->validated());
         return response()->json([
             'status' => 'success',
             'message' => 'Category created successfully',
@@ -110,4 +112,31 @@ class CategoryController extends Controller
             ]
         ], 200);
     }
+
+    public function showWithCourses(Category $category)
+    {
+        $category->load([
+            'courses:id,category_id,slug,title'
+        ]);
+
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category retrieved successfully',
+            'data' => [
+                "Category" => [
+                    "id" => $category->id,
+                    "slug" => $category->slug,
+                    "name"=>$category->name,
+                    "courses" => $category->courses,
+                    'meta' => [
+                        'total courses' => $category->courses->count()
+                    ]
+                ]
+            ]
+        ], 200);
+    }
+
+
+
 }

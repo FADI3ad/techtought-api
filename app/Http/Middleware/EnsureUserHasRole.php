@@ -20,7 +20,7 @@ class EnsureUserHasRole
 
         if (!$user) {
             return response()->json([
-                'message' => 'Unauthenticated'
+                'message' => 'Unauthenticated..'
             ], 401);
         }
 

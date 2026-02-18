@@ -68,6 +68,12 @@ class StoreCourseRequest extends FormRequest
                 'integer',
                 'exists:sub_categories,id',
             ],
+
+            'category_id' => [
+                'required',
+                'integer',
+                'exists:categories,id',
+            ],
         ];
     }
 
@@ -112,6 +118,11 @@ class StoreCourseRequest extends FormRequest
             'sub_category_id.required' => 'SubCategory is required.',
             'sub_category_id.integer'  => 'SubCategory ID must be a valid number.',
             'sub_category_id.exists'   => 'Selected SubCategory does not exist.',
+
+            // category
+            'category_id.required' => 'Category is required.',
+            'category_id.integer'  => 'Category ID must be a valid number.',
+            'category_id.exists'   => 'Selected Category does not exist.',
         ];
     }
 }

@@ -98,7 +98,7 @@ class SubCategoryController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Category retrieved successfully',
+            'message' => 'SubCategory retrieved successfully',
             'data' => [
                 "subcategory" => [
                     "id" => $subcategory->id,
