@@ -52,3 +52,10 @@ Route::put('/courses/{course:slug}', [CourseController::class, 'update']);
 Route::delete('/courses/{course:slug}' , [CourseController::class, 'destroy']);
 
 
+//sections
+Route::get('/sections', [CourseController::class, 'index']); // dont forget do this
+Route::post('/sections', [CourseController::class, 'store']);
+Route::get('/sections/{sections:slug}', [CourseController::class, 'show']);
+Route::put('/sections/{sections:slug}', [CourseController::class, 'update']);
+Route::delete('/sections/{sections:slug}' , [CourseController::class, 'destroy']);
+
