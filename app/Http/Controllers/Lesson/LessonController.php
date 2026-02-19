@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Lesson;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Lesson\StoreLessonRequest;
-use App\Http\Requests\Lesson\UpdateLessonRequest;
+use App\Http\Requests\StoreLessonRequest;
 use App\Models\Lesson;
 
 

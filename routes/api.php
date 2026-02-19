@@ -1,15 +1,28 @@
 <?php
 
-use App\Http\Controllers\Section\SectionController as SectionController;
+use App\Http\Controllers\Section\SectionController;
+use App\Http\Controllers\Lesson\LessonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+//section
+Route::prefix('sections')->group(function () {
+ Route::get('/', [SectionController::class , 'index']);
+Route::post('/', [SectionController::class , 'store']);
+Route::get('/{section}', [SectionController::class , 'show']);
+Route::put('/{section}', [SectionController::class , 'update']);
+Route::delete('/{section}', [SectionController::class , 'destroy']);
+});
+ 
+// Lesson
+Route::prefix('lessons')->group(function () {
 
-Route::post('/section-store', [SectionController::class , 'store']);
-Route::get('/section-index', [SectionController::class , 'index']);
-Route::get('/section-show/{section}', [SectionController::class , 'show']);
-Route::put('/section-update/{section}', [SectionController::class , 'update']);
-Route::delete('/section-destroy/{section}', [SectionController::class , 'destroy']);
+Route::get('/', [LessonController::class , 'index']);
+Route::post('/', [LessonController::class , 'store']);
+Route::get('/{lesson}', [LessonController::class , 'show']);
+Route::put('/{lesson}', [LessonController::class , 'update']);
+Route::delete('/{lesson}',[LessonController::class , 'destroy']);
+});
 
 
 
