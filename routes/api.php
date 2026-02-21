@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\SubCategoryController;
+use App\Http\Controllers\Review\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Course\CourseController;
@@ -28,7 +29,7 @@ Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
 Route::put('/categories/{category:slug}', [CategoryController::class, 'update']);
 Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy']);
 Route::get('/categories/{category:slug}/subcategories', [CategoryController::class, 'showWithSubcategories']);
-Route::get('/categories/{category:slug}/courses', [CategoryController::class, 'showWithCourses']);
+Route::get('/categories/{category:slug}/reviews', [CategoryController::class, 'showWithCourses']);
 
 
 
@@ -52,3 +53,9 @@ Route::put('/courses/{course:slug}', [CourseController::class, 'update']);
 Route::delete('/courses/{course:slug}' , [CourseController::class, 'destroy']);
 
 
+//Review
+ Route::get('/reviews', [ReviewController::class, 'index']); 
+Route::post('/reviews', [ReviewController::class, 'store']);
+Route::get('/reviews/{review:slug}', [ReviewController::class, 'show']);
+Route::put('/reviews/{review:slug}', [ReviewController::class, 'update']);
+Route::delete('/reviews/{review:slug}' , [ReviewController::class, 'destroy']);
