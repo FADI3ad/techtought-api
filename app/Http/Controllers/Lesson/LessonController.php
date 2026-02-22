@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Lesson;
 
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
@@ -14,12 +14,13 @@ class LessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::select(['id', 'section_id'])->get();
+        $lessons = Lesson::select(['id','slug','title','section_id'])->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Lessons retrieved successfully',
             'data' => [
                 "lessons" => $lessons
+                
             ],
             'meta' => [
                 'total' => $lessons->count()

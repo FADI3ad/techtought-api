@@ -23,6 +23,24 @@ class StoreLessonRequest extends FormRequest
     {
         return [
             "section_id" => "required|exists:sections,id",
+            "title" => "required|unique:sections,title|min:3|max:60"
+        ];
+    }
+
+
+    public function messages(): array
+    {
+        return [
+            //section
+            'section_id.required' => 'Section is required.',
+            'section_id.exists'   => 'The selected section does not exist.',
+
+
+            //title
+            'title.required' => 'Title is required.',
+            'title.unique'   => 'This title has already been taken.',
+            'title.min'      => 'Title must be at least 3 characters.',
+            'title.max'      => 'Title may not be greater than 60 characters.'
         ];
     }
 }
