@@ -4,10 +4,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\SubCategoryController;
+use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\Lesson\LessonController;
+use App\Http\Controllers\Section\SectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Course\CourseController;
-use App\Http\Controllers\Section\SectionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,7 +31,6 @@ Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])
 Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy']);
 Route::get('/categories/{category:slug}/subcategories', [CategoryController::class, 'showWithSubcategories']);
 Route::get('/categories/{category:slug}/courses', [CategoryController::class, 'showWithCourses']);
-
 
 
 
@@ -60,3 +60,9 @@ Route::get('/sections/{sections:slug}', [SectionController::class, 'show']);
 Route::put('/sections/{sections:slug}', [SectionController::class, 'update']);
 Route::delete('/sections/{sections:slug}' , [SectionController::class, 'destroy']);
 
+//lessons
+Route::get('/lessons', [LessonController::class , 'index']);
+Route::post('/lessons', [LessonController::class , 'store']);
+Route::get('lessons/{lesson:slug}', [LessonController::class , 'show']);
+Route::put('lessons/{lesson:slug}', [LessonController::class , 'update']);
+Route::delete('lessons/{lesson:slug}',[LessonController::class , 'destroy']);
