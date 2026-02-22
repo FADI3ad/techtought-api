@@ -7,6 +7,7 @@ use App\Http\Controllers\Category\SubCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\Section\SectionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -53,9 +54,9 @@ Route::delete('/courses/{course:slug}' , [CourseController::class, 'destroy']);
 
 
 //sections
-Route::get('/sections', [CourseController::class, 'index']); // dont forget do this
-Route::post('/sections', [CourseController::class, 'store']);
-Route::get('/sections/{sections:slug}', [CourseController::class, 'show']);
-Route::put('/sections/{sections:slug}', [CourseController::class, 'update']);
-Route::delete('/sections/{sections:slug}' , [CourseController::class, 'destroy']);
+Route::get('/sections', [SectionController::class, 'index']); // dont forget do this
+Route::post('/sections', [SectionController::class, 'store']);
+Route::get('/sections/{sections:slug}', [SectionController::class, 'show']);
+Route::put('/sections/{sections:slug}', [SectionController::class, 'update']);
+Route::delete('/sections/{sections:slug}' , [SectionController::class, 'destroy']);
 
