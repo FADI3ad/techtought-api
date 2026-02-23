@@ -23,11 +23,12 @@ class Category extends Model
 
 
 
-    protected $fillable = [
-        'name',
+    protected $guarded = [
+        'id',
+        'slug',
+        'created_at',
+        'updated_at'
     ];
-
-
 
 
     public function subCategories()
@@ -39,5 +40,4 @@ class Category extends Model
     {
         return $this->hasmany(Course::class);
     }
-    
 }

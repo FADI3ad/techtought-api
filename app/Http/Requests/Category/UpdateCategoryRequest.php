@@ -4,11 +4,6 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-
-
-
-
-
 class UpdateCategoryRequest extends FormRequest
 {
     /**
@@ -21,31 +16,40 @@ class UpdateCategoryRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:3|max:100|unique:categories,name|regex:/^[^\d]+$/',
+            'name' => 'required|string|min:3|max:100|regex:/^[^\d]+$/|unique:categories,name,' . $this->category->id,
+            'description' => 'required|string|max:500',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 
-
-
+    /**
+     * Custom error messages.
+     */
     public function messages()
     {
         return [
-            //name
+            // name
             'name.required' => 'Category name is required.',
             'name.string' => 'Category name must be a text.',
             'name.min' => 'Category name must be at least 3 characters.',
             'name.max' => 'Category name must not exceed 100 characters.',
             'name.regex' => 'Category name must not contain numbers.',
-            'name.unique'   => 'Another category with this name already exists.',
+            'name.unique' => 'Another category with this name already exists.',
 
+            // description
+            'description.required' => 'Category description is required.',
+            'description.string' => 'Category description must be a text.',
+            'description.max' => 'Category description must not exceed 500 characters.',
 
-
+            // image
+            'image.required' => 'Category image is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'Allowed image formats: jpeg, png, jpg, gif, svg.',
+            'image.max' => 'The image size must not exceed 2MB.',
         ];
     }
 }
