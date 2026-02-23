@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Mail\WelcomeMail;
 use App\Models\Student;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 
 class RegisterController extends Controller
@@ -19,6 +22,9 @@ class RegisterController extends Controller
         $student = Student::create([
             "user_id" => $user->id
         ]);
+
+        Mail::to($user->email)->send(new WelcomeMail($user));
+
 
         $token = $user->createToken('mobile-app-token')->plainTextToken;
 
