@@ -7,6 +7,8 @@ use App\Http\Controllers\Category\SubCategoryController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Lesson\LessonController;
 use App\Http\Controllers\Section\SectionController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -65,3 +67,17 @@ Route::post('/lessons', [LessonController::class , 'store']);
 Route::get('lessons/{lesson:slug}', [LessonController::class , 'show']);
 Route::put('lessons/{lesson:slug}', [LessonController::class , 'update']);
 Route::delete('lessons/{lesson:slug}',[LessonController::class , 'destroy']);
+
+//AdminAuth
+  Route::prefix('admin')->group(function () {
+
+    Route::post('/login', [AdminAuthController::class, 'login']);
+
+    Route::middleware(['auth:sanctum','admin'])->group(function () {
+
+        Route::post('/change-password', [AdminAuthController::class,'changePassword']);
+        Route::post('/logout', [AdminAuthController::class,'logout']);
+
+    });
+
+});
