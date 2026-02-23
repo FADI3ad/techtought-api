@@ -14,7 +14,7 @@ class CategoryController extends Controller
     // for admin
     public function index()
     {
-        $categories = Category::select(['id', 'slug', 'name', 'description', 'image'])->get();
+        $categories = Category::select(['id', 'slug', 'name'])->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Categories retrieved successfully',
@@ -76,12 +76,12 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data = $request->validated();
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image_path')) {
 
-            if ($category->image) {
-                Storage::disk('public')->delete($category->image);
+            if ($category->image_path) {
+                Storage::disk('public')->delete($category->image_path);
             }
-            $data['image'] = $request->file('image')->store('categories', 'public');
+            $data['image_path'] = $request->file('image_path')->store('categories', 'public');
         }
 
         $category->update($data);
@@ -96,7 +96,7 @@ class CategoryController extends Controller
                     "slug" => $category->slug,
                     "name" => $category->name,
                     "description" => $category->description,
-                    "image" => $category->image ? asset('storage/' . $category->image) : null
+                    "image" => $category->image_path ? asset('storage/' . $category->image_path) : null
                 ]
             ]
         ], 200);
@@ -106,8 +106,8 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
+        if ($category->image_path) {
+            Storage::disk('public')->delete($category->image_path);
         }
         $category->delete();
         Cache::forget('navbar_categories');
@@ -158,5 +158,8 @@ class CategoryController extends Controller
             ]
         ], 200);
     }
+
+
+
 
 }

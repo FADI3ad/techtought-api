@@ -31,8 +31,6 @@ Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
 Route::put('/categories/{category:slug}', [CategoryController::class, 'update']);
 Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy']);
 Route::get('/categories/{category:slug}/subcategories', [CategoryController::class, 'showWithSubcategories']);
-// Route::get('/categories/{category:slug}/courses', [CategoryController::class, 'showWithCourses']);
-Route::get('/categories/navbar',[CategoryController::class , 'navbarCategories']);
 
 
 //SubCategories

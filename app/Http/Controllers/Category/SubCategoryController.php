@@ -11,6 +11,7 @@ use App\Models\SubCategory;
 class SubCategoryController extends Controller
 {
 
+    // for admin
     public function index()
     {
         $subCategories = SubCategory::select(['id', 'slug', 'name'])->get();
@@ -26,6 +27,8 @@ class SubCategoryController extends Controller
             ]
         ], 200);
     }
+
+    // for admin
     public function store(StoreSubCategoryRequest $request)
     {
         $subCategory = SubCategory::create($request->validated());
@@ -44,6 +47,8 @@ class SubCategoryController extends Controller
         ], 201);
     }
 
+
+    // for admin
     public function show(SubCategory $subcategory)
     {
         return response()->json([
@@ -60,6 +65,7 @@ class SubCategoryController extends Controller
         ], 200);
     }
 
+    // for admin
     public function update(SubCategory $subCategory, UpdateSubCategoryRequest $request)
     {
         $subCategory->update($request->validated());
@@ -79,6 +85,7 @@ class SubCategoryController extends Controller
     }
 
 
+    // for admin
     public function destroy(SubCategory $subcategory)
     {
 
@@ -89,6 +96,8 @@ class SubCategoryController extends Controller
         ], 200);
     }
 
+
+    
     public function showWithCourses(SubCategory $subcategory)
     {
         $subcategory->load([
@@ -112,4 +121,8 @@ class SubCategoryController extends Controller
             ]
         ], 200);
     }
+
+
+
+
 }
