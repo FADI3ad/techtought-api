@@ -7,8 +7,6 @@ use App\Http\Controllers\Category\SubCategoryController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Lesson\LessonController;
 use App\Http\Controllers\Section\SectionController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,57 +25,38 @@ Route::post('/login', [LoginController::class, 'login']);
 
 //Categories
 Route::get('/categories', [CategoryController::class, 'index']);
-Route::post('/categories', [CategoryController::class, 'store']);
 Route::get('/categories/navbar',[CategoryController::class , 'navbarCategories']);
 Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
-Route::put('/categories/{category:slug}', [CategoryController::class, 'update']);
-Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy']);
 Route::get('/categories/{category:slug}/subcategories', [CategoryController::class, 'showWithSubcategories']);
+
 
 
 //SubCategories
 Route::get('/subcategories', [SubCategoryController::class, 'index']);
-Route::post('/subcategories', [SubCategoryController::class, 'store']);
 Route::get('/subcategories/{subcategory:slug}', [SubCategoryController::class, 'show']);
-Route::put('/subcategories/{subcategory:slug}', [SubCategoryController::class, 'update']);
-Route::delete('/subcategories/{subcategory:slug}' , [SubCategoryController::class, 'destroy']);
 Route::get('/subcategories/{subcategory:slug}/courses', [SubCategoryController::class, 'showWithCourses']);
 
 
 
 
 //courses
-Route::get('/courses', [CourseController::class, 'index']); // dont forget do this
-Route::post('/courses', [CourseController::class, 'store']);
+Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{course:slug}', [CourseController::class, 'show']);
-Route::put('/courses/{course:slug}', [CourseController::class, 'update']);
-Route::delete('/courses/{course:slug}' , [CourseController::class, 'destroy']);
+
 
 
 //sections
-Route::get('/sections', [SectionController::class, 'index']); // dont forget do this
-Route::post('/sections', [SectionController::class, 'store']);
+Route::get('/sections', [SectionController::class, 'index']);
 Route::get('/sections/{sections:slug}', [SectionController::class, 'show']);
-Route::put('/sections/{sections:slug}', [SectionController::class, 'update']);
-Route::delete('/sections/{sections:slug}' , [SectionController::class, 'destroy']);
+
 
 //lessons
 Route::get('/lessons', [LessonController::class , 'index']);
-Route::post('/lessons', [LessonController::class , 'store']);
 Route::get('lessons/{lesson:slug}', [LessonController::class , 'show']);
-Route::put('lessons/{lesson:slug}', [LessonController::class , 'update']);
-Route::delete('lessons/{lesson:slug}',[LessonController::class , 'destroy']);
 
-//AdminAuth
-  Route::prefix('admin')->group(function () {
 
-    Route::post('/login', [AdminAuthController::class, 'login']);
 
-    Route::middleware(['auth:sanctum','admin'])->group(function () {
 
-        Route::post('/change-password', [AdminAuthController::class,'changePassword']);
-        Route::post('/logout', [AdminAuthController::class,'logout']);
 
-    });
-
-});
+require_once __DIR__.'/admin.php';
+require_once __DIR__.'/instructor.php';
