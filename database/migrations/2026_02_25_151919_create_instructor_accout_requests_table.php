@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('slug', 150)->unique();
             $table->string('full_name');
             $table->string('email')->unique();
-            $table->string('status');
             $table->string('country');
             $table->string('subject');
             $table->string('phone');
