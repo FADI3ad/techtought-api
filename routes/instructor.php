@@ -3,6 +3,7 @@
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Lesson\LessonController;
 use App\Http\Controllers\Section\SectionController;
+use App\Http\Controllers\InstructorRequestController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,4 +28,6 @@ Route::delete('/sections/{sections:slug}' , [SectionController::class, 'destroy'
 Route::post('/lessons', [LessonController::class , 'store']);
 Route::put('lessons/{lesson:slug}', [LessonController::class , 'update']);
 Route::delete('lessons/{lesson:slug}',[LessonController::class , 'destroy']);
-
+ 
+//instructorrequest
+Route::post('/apply-instructor',[InstructorRequestController::class,'store']);
