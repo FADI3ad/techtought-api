@@ -30,4 +30,20 @@ Route::put('lessons/{lesson:slug}', [LessonController::class , 'update']);
 Route::delete('lessons/{lesson:slug}',[LessonController::class , 'destroy']);
  
 //instructorrequest
-Route::post('/apply-instructor',[InstructorRequestController::class,'store']);
+Route::post('/apply-instructor',
+    [InstructorRequestController::class,'store']);
+
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
+
+    Route::get('/instructor-requests',
+        [InstructorRequestController::class,'index']);
+
+    Route::get('/instructor-requests/{id}',
+        [InstructorRequestController::class,'show']);
+
+    Route::put('/instructor-requests/{id}',
+        [InstructorRequestController::class,'update']);
+
+    Route::delete('/instructor-requests/{id}',
+        [InstructorRequestController::class,'destroy']);
+});

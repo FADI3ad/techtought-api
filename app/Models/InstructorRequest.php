@@ -4,8 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-class InstructorRequest extends Model
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class InstructorRequest extends  Authenticatable
 {
+    use HasApiTokens;
+
     protected $table = 'instructor_requests';
 
    protected static function booted()
@@ -18,7 +23,7 @@ class InstructorRequest extends Model
     'full_name',
     'slug',
     'email',
-    'country',
+    'country', 
     'subject',
     'age',
     'phone',
