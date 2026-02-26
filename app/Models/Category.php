@@ -19,6 +19,7 @@ class Category extends Model
         static::updating(function ($category) {
             $category->slug = Str::slug($category->name, '-');
         });
+
     }
 
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -15,42 +17,31 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::select(['id', 'slug', 'name'])->get();
+
         return response()->json([
             'status' => 'success',
             'message' => 'Categories retrieved successfully',
-            'data' => [
-                "categories" => $categories
-            ],
-            'meta' => [
-                'total' => $categories->count()
-            ]
+            'data'=> new CategoryCollection($categories)
         ], 200);
     }
 
     // for admin
     public function store(StoreCategoryRequest $request)
     {
-
         $data = $request->validated();
+
         if ($request->hasFile('image_path')) {
             $data['image_path'] = $request->file('image_path')->store('categories', 'public');
         }
 
         $category = Category::create($data);
+
         Cache::forget('navbar_categories');
 
         return response()->json([
             'status' => 'success',
             'message' => 'Category created successfully',
-            'data' => [
-                "category" => [
-                    "id" => $category->id,
-                    "slug" => $category->slug,
-                    "name" => $category->name,
-                    "description" => $category->description,
-                    "image" => $category->image_path ? asset('storage/' . $category->image_path) : null
-                ]
-            ]
+            'data' => new CategoryResource($category)
         ], 201);
     }
 
@@ -60,15 +51,7 @@ class CategoryController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Category retrieved successfully',
-            'data' => [
-                "category" => [
-                    "id" => $category->id,
-                    "slug" => $category->slug,
-                    "name" => $category->name,
-                    "description" => $category->description,
-                    "image" => $category->image_path ? asset('storage/' . $category->image_path) : null
-                ]
-            ]
+            'data' => new CategoryResource($category)
         ], 200);
     }
 
@@ -85,20 +68,13 @@ class CategoryController extends Controller
         }
 
         $category->update($data);
+
         Cache::forget('navbar_categories');
 
         return response()->json([
             'status' => 'success',
             'message' => 'Category updated successfully',
-            'data' => [
-                'category' => [
-                    "id" => $category->id,
-                    "slug" => $category->slug,
-                    "name" => $category->name,
-                    "description" => $category->description,
-                    "image" => $category->image_path ? asset('storage/' . $category->image_path) : null
-                ]
-            ]
+            'data' => new CategoryResource($category)
         ], 200);
     }
 
@@ -110,6 +86,7 @@ class CategoryController extends Controller
             Storage::disk('public')->delete($category->image_path);
         }
         $category->delete();
+
         Cache::forget('navbar_categories');
 
         return response()->json([
@@ -158,8 +135,4 @@ class CategoryController extends Controller
             ]
         ], 200);
     }
-
-
-
-
 }
