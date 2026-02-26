@@ -17,12 +17,11 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('email')->unique();
             $table->string('country');
-            $table->string('subject');
-            $table->string('phone');
+            $table->char('phone' , 20)->unique();
             $table->integer('age');
             $table->string('cv_link');
-            $table->string('national_id_front');
-            $table->string('national_id_back');
+            $table->string('national_id_front_image');
+            $table->string('national_id_back_image');
             $table->integer('experience_years');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();

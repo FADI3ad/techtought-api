@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,24 +12,22 @@ class InstructorRequest extends  Authenticatable
 
     protected $table = 'instructor_requests';
 
-   protected static function booted()
-{
-    static::creating(function ($model) {
-        $model->slug = Str::slug($model->fullname);
-    });
-}
-    protected $fillable = [
-    'full_name',
-    'slug',
-    'email',
-    'country', 
-    'subject',
-    'age',
-    'phone',
-    'experience_years',
-    'cv_link',
-    'national_id_front',
-    'national_id_back',
-    'status'
-];
+    protected static function booted()
+    {
+        static::creating(function ($instructor_request) {
+            $instructor_request->slug = Str::slug($instructor_request->full_name, '-') . Str::random(6);
+        });
+        static::updating(function ($instructor_request) {
+            $instructor_request->slug = Str::slug($instructor_request->full_name, '-') . Str::random(6);
+        });
+    }
+
+
+    protected $guarded = [
+        'id',
+        'slug',
+        'created_at',
+        'updated_at',
+    ];
+
 }
