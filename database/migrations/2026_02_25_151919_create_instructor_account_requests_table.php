@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instructor_accout_requests', function (Blueprint $table) {
+        Schema::create('instructor_account_requests', function (Blueprint $table) {
             $table->id();
             $table->string('slug', 150)->unique();
-            $table->string('full_name');
+            $table->string('name');
             $table->string('email')->unique();
             $table->string('country');
             $table->char('phone' , 20)->unique();
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instructor_accout_requests');
+        Schema::dropIfExists('instructor_account_requests');
     }
 };

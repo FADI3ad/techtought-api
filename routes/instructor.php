@@ -3,7 +3,7 @@
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Lesson\LessonController;
 use App\Http\Controllers\Section\SectionController;
-use App\Http\Controllers\InstructorRequestController;
+use App\Http\Controllers\instructor\InstructorRequestController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,22 +28,9 @@ Route::delete('/sections/{sections:slug}' , [SectionController::class, 'destroy'
 Route::post('/lessons', [LessonController::class , 'store']);
 Route::put('lessons/{lesson:slug}', [LessonController::class , 'update']);
 Route::delete('lessons/{lesson:slug}',[LessonController::class , 'destroy']);
- 
-//instructorrequest
-Route::post('/apply-instructor',
-    [InstructorRequestController::class,'store']);
 
-Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
 
-    Route::get('/instructor-requests',
-        [InstructorRequestController::class,'index']);
 
-    Route::get('/instructor-requests/{id}',
-        [InstructorRequestController::class,'show']);
 
-    Route::put('/instructor-requests/{id}',
-        [InstructorRequestController::class,'update']);
-
-    Route::delete('/instructor-requests/{id}',
-        [InstructorRequestController::class,'destroy']);
-});
+//instructor Reuests
+Route::post('/instructor-requests',[InstructorRequestController::class,'store']);

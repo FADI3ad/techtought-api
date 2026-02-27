@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\SubCategoryController;
 use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\instructor\InstructorRequestController;
 use App\Http\Controllers\Lesson\LessonController;
 use App\Http\Controllers\Section\SectionController;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login']);
 
 
-    Route::middleware(['auth:sanctum' , 'role:admin'])->group(function () {
+    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
 
         //Categories
         Route::get('/categories', [CategoryController::class, 'index']); //done
@@ -62,5 +63,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/lessons', [LessonController::class, 'index']);
         Route::get('lessons/{lesson:slug}', [LessonController::class, 'show']);
         Route::delete('lessons/{lesson:slug}', [LessonController::class, 'destroy']);
+
+
+
+        //instructor Reuests
+        Route::get('/instructor-requests',[InstructorRequestController::class, 'index']);
+        Route::post('/instructor-requests/{instructoraccountrequest:slug}/change-status' , [InstructorRequestController::class , 'changeStatus']);
+        Route::get('/instructor-requests/{InstructorRequest:slug}',[InstructorRequestController::class, 'show']);
+        Route::delete('/instructor-requests/{InstructorRequest:slug}',[InstructorRequestController::class, 'destroy']);
+
     });
 });
