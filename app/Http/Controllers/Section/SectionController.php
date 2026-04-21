@@ -28,7 +28,12 @@ class SectionController extends Controller
 
     public function store(StoreSectionRequest $request)
     {
-        $section = Section::create($request->validated());
+        $data = $request->validated();
+
+        // add order
+        $data['order'] = Section::where('course_id', $data['course_id'])->count() + 1;
+
+        $section = Section::create($data);
 
         return response()->json([
             'status' => 'success',
@@ -37,7 +42,8 @@ class SectionController extends Controller
                 "section" => [
                     "id" => $section->id,
                     "slug" => $section->slug,
-                    "name" => $section->name
+                    "name" => $section->name,
+                    "order" => $section->order
                 ]
             ]
         ], 201);

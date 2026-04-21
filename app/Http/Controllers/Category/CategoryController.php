@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    // for admin
+
+    //-------------------------------------------------
+    // Tested and working fine (for admin)
+    //--------------------------------------------------
     public function index()
     {
         $categories = Category::select(['id', 'slug', 'name'])->get();
@@ -21,11 +24,14 @@ class CategoryController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Categories retrieved successfully',
-            'data'=> new CategoryCollection($categories)
+            'data' => new CategoryCollection($categories)
         ], 200);
     }
 
-    // for admin
+
+    //-------------------------------------------------
+    // Tested and working fine (for admin only)
+    //--------------------------------------------------
     public function store(StoreCategoryRequest $request)
     {
         $data = $request->validated();
@@ -45,7 +51,13 @@ class CategoryController extends Controller
         ], 201);
     }
 
-    // for admin and frontend
+
+
+
+
+    //-------------------------------------------------
+    // Tested and working fine (for admin)
+    //--------------------------------------------------
     public function show(Category $category)
     {
         return response()->json([
@@ -55,7 +67,10 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    // for admin
+
+    //-------------------------------------------------
+    // Tested and working fine (for admin only)
+    //--------------------------------------------------
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data = $request->validated();
@@ -78,7 +93,12 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    // for admin
+
+
+
+    //-------------------------------------------------
+    // Tested and working fine (for admin only)
+    //--------------------------------------------------
     public function destroy(Category $category)
     {
 
@@ -95,7 +115,12 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    // for frontend
+
+
+
+
+
+
     public function navbarCategories()
     {
         $categories = Cache::remember('navbar_categories', 86400, function () {
@@ -114,7 +139,73 @@ class CategoryController extends Controller
         ]);
     }
 
-    // for frontend
+
+
+    public function showWithLatestSixCourses(Category $category)
+    {
+        $category->load('latestCourses');
+
+        $courses = $category->latestCourses->map(function ($course) {
+            return [
+                "id" => $course->id,
+                "slug" => $course->slug,
+                "title" => $course->title,
+                "description" => $course->description,
+                "image" => asset('storage/' . $course->image_path),
+                "requirements" => $course->requirements,
+                "language" => $course->lang,
+                "is_free" => $course->is_free,
+                "price" => $course->price,
+            ];
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category With Courses retrieved successfully',
+            'data' => [
+                "category" => [
+                    "id" => $category->id,
+                    "slug" => $category->slug,
+                    "name" => $category->name,
+                    "image" => $category->image_path ? asset('storage/' . $category->image_path) : null,
+                    "courses" => $courses,
+                    'meta' => [
+                        'total courses' => $courses->count()
+                    ]
+                ]
+            ]
+        ], 200);
+    }
+
+
+
+
+
+
+
+    public function showWithAllCourses(Category $category)
+    {
+        $category->load('courses');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category With Courses retrieved successfully',
+            'data' => [
+                "category" => [
+                    "id" => $category->id,
+                    "slug" => $category->slug,
+                    "name" => $category->name,
+                    "image" => $category->image_path ? asset('storage/' . $category->image_path) : null,
+                    "courses" => $category->courses,
+                    'meta' => [
+                        'total courses' => $category->courses->count()
+                    ]
+                ]
+            ]
+        ], 200);
+    }
+
+
     public function showWithSubcategories(Category $category)
     {
         $category->load(['subCategories:category_id,slug,name']);

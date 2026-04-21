@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('lang', ['AR', 'EN'])->default('AR');
             $table->text('requirements')->nullable();
             $table->boolean('is_free')->default(false);
-            $table->decimal('price', 10, 2)->default(0);
+            $table->decimal('price', 10, 2)->default(0)->nullable();
             $table->foreignId('sub_category_id')
                 ->constrained()
                 ->cascadeOnDelete();

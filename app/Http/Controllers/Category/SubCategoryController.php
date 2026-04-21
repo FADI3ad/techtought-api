@@ -11,11 +11,14 @@ use App\Models\SubCategory;
 class SubCategoryController extends Controller
 {
 
-    // for admin
+    //-------------------------------------------------
+    // Tested and working fine (for admin)
+    //--------------------------------------------------
     public function index()
     {
-        $subCategories = SubCategory::select(['id', 'slug', 'name'])->get();
-
+        $subCategories = SubCategory::with('category:id,name,slug')
+            ->select(['id', 'slug', 'name', 'category_id'])
+            ->get();
         return response()->json([
             'status' => 'success',
             'message' => 'SubCategories retrieved successfully',
@@ -28,7 +31,10 @@ class SubCategoryController extends Controller
         ], 200);
     }
 
-    // for admin
+
+    //-------------------------------------------------
+    // Tested and working fine (for admin only)
+    //--------------------------------------------------
     public function store(StoreSubCategoryRequest $request)
     {
         $subCategory = SubCategory::create($request->validated());
@@ -48,7 +54,11 @@ class SubCategoryController extends Controller
     }
 
 
-    // for admin
+
+
+    //-------------------------------------------------
+    // Tested and working fine (for admin)
+    //--------------------------------------------------
     public function show(SubCategory $subcategory)
     {
         return response()->json([
@@ -65,6 +75,8 @@ class SubCategoryController extends Controller
         ], 200);
     }
 
+
+    
     // for admin
     public function update(SubCategory $subCategory, UpdateSubCategoryRequest $request)
     {
@@ -85,26 +97,25 @@ class SubCategoryController extends Controller
     }
 
 
-    // for admin
+    //-------------------------------------------------
+    // Tested and working fine (for admin only)
+    //--------------------------------------------------
     public function destroy(SubCategory $subcategory)
     {
-
         $subcategory->delete();
         return response()->json([
             'status' => 'success',
-            'message' => 'Category deleted successfully'
+            'message' => 'SubCategory deleted successfully'
         ], 200);
     }
 
 
-    
+
     public function showWithCourses(SubCategory $subcategory)
     {
         $subcategory->load([
             'courses:id,sub_category_id,slug,title'
         ]);
-
-
         return response()->json([
             'status' => 'success',
             'message' => 'SubCategory retrieved successfully',
@@ -121,8 +132,4 @@ class SubCategoryController extends Controller
             ]
         ], 200);
     }
-
-
-
-
 }

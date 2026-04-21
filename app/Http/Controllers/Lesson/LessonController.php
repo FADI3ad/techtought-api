@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Lesson;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreLessonRequest;
-use App\Http\Requests\UpdateLessonRequest;
+use App\Http\Requests\lesson\StoreLessonRequest;
+use App\Http\Requests\lesson\UpdateLessonRequest;
 
 use App\Models\Lesson;
 
@@ -14,13 +14,13 @@ class LessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::select(['id','slug','title','section_id'])->get();
+        $lessons = Lesson::select(['id', 'slug', 'title', 'section_id'])->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Lessons retrieved successfully',
             'data' => [
                 "lessons" => $lessons
-                
+
             ],
             'meta' => [
                 'total' => $lessons->count()
@@ -30,9 +30,17 @@ class LessonController extends Controller
 
     public function store(StoreLessonRequest $request)
     {
+        $data = $request->validated();
 
+        if ($request->hasFile('video')) {
+            $path = $request->file('video')->store('lessons', 'public');
+            $data['video_path'] = $path;
+        }
 
-        $lesson = Lesson::create($request->validated());
+        $data['order'] = Lesson::where('section_id', $data['section_id'])->count() + 1;
+
+        $lesson = Lesson::create($data);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Lesson created successfully',
@@ -40,6 +48,10 @@ class LessonController extends Controller
                 "lesson" => [
                     "id" => $lesson->id,
                     "section_id" => $lesson->section_id,
+                    "video_path" => $lesson->video_path
+                        ? asset('storage/' . $lesson->video_path)
+                        : null,
+                    "order" => $lesson->order
                 ]
             ]
         ], 201);

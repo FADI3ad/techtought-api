@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\lesson;
+
+
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +25,7 @@ class UpdateLessonRequest extends FormRequest
     {
         return [
             "section_id" => "required|exists:sections,id",
-            "title" => "required|min:3|max:60|unique:sections,title," 
+            "title" => "required|min:3|max:60|unique:sections,title,"
         ];
     }
 

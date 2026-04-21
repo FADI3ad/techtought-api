@@ -56,7 +56,7 @@ class InstructorRequestController extends Controller
         ], 201);
     }
 
-    // for admin: show single request
+
     public function show(InstructorAccountRequest $instructorAccountRequest)
     {
         return response()->json([
@@ -102,5 +102,5 @@ class InstructorRequestController extends Controller
 
 
 
-    
+
 }

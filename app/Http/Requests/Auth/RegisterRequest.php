@@ -11,7 +11,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; 
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:3|max:255|regex:/^[\pL]+(\s[\pL]+){1,2}$/u',
+            'name' => 'required|string|min:3|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'phone' => 'required|string|min:5|max:20|unique:users,phone|regex:/^\+?\d+$/',
             'image' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,webp',
@@ -42,7 +42,6 @@ class RegisterRequest extends FormRequest
             'name.string' => 'Name must be a valid string.',
             'name.min' => 'Name must be at least 3 characters long.',
             'name.max' => 'Name must not exceed 255 characters.',
-            'name.regex' => 'Name must contain 2 or 3 words, letters only.',
 
             // Email
             'email.required' => 'Email is required.',

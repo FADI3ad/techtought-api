@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\lesson;
+
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,11 +20,12 @@ class StoreLessonRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            "section_id" => "required|exists:sections,id",
-            "title" => "required|unique:sections,title|min:3|max:60"
+            'title' => 'required|string|max:255',
+            'section_id' => 'required|exists:sections,id',
+            'video' => 'nullable|file|mimes:mp4,mov,avi|max:51200',
         ];
     }
 

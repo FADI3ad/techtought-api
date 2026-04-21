@@ -32,12 +32,6 @@ class StoreSectionRequest extends FormRequest
                 Rule::unique('sections', 'name'),
             ],
 
-            'slug' => [
-                'required',
-                'string',
-                'max:150',
-                Rule::unique('sections', 'slug'),
-            ],
 
             'course_id' => [
                 'required',

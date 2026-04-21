@@ -35,11 +35,7 @@ class StoreCourseRequest extends FormRequest
                 'min:10',
             ],
 
-            'image_path' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
+
 
             'lang' => [
                 'required',
@@ -47,7 +43,7 @@ class StoreCourseRequest extends FormRequest
             ],
 
             'price' => [
-                'required',
+                'nullable',
                 'numeric',
                 'min:0',
             ],

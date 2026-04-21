@@ -13,16 +13,17 @@ class Lesson extends Model
     protected static function booted()
     {
         static::creating(function ($lesson) {
-            $lesson->slug = Str::slug($lesson->name, '-');
+            $lesson->slug = Str::slug($lesson->title, '-');
         });
         static::updating(function ($lesson) {
-            $lesson->slug = Str::slug($lesson->name, '-');
+            $lesson->slug = Str::slug($lesson->title, '-');
         });
     }
 
     protected $fillable = [
         'section_id',
-        'title'
+        'title',
+        'video_path'
     ];
 
 

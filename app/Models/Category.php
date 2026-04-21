@@ -19,7 +19,6 @@ class Category extends Model
         static::updating(function ($category) {
             $category->slug = Str::slug($category->name, '-');
         });
-
     }
 
 
@@ -39,6 +38,16 @@ class Category extends Model
 
     public function courses()
     {
-        return $this->hasmany(Course::class);
+        return $this->hasMany(Course::class);
+    }
+
+
+
+
+    public function latestCourses()
+    {
+        return $this->hasMany(Course::class)
+            ->latest()
+            ->take(6);
     }
 }

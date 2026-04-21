@@ -23,7 +23,7 @@ class RegisterController extends Controller
             "user_id" => $user->id
         ]);
 
-        Mail::to($user->email)->send(new WelcomeMail($user));
+        // Mail::to($user->email)->send(new WelcomeMail($user));
 
 
         $token = $user->createToken('mobile-app-token')->plainTextToken;

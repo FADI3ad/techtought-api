@@ -14,10 +14,10 @@ class Section extends Model
     protected static function booted()
     {
         static::creating(function ($section) {
-            $section->slug = Str::slug($section->title, '-');
+            $section->slug = Str::slug($section->name, '-');
         });
         static::updating(function ($section) {
-            $section->slug = Str::slug($section->title, '-');
+            $section->slug = Str::slug($section->name, '-');
         });
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\SubCategoryController;
@@ -20,7 +21,7 @@ Route::get('/user', function (Request $request) {
 //Auth
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
-
+Route::post('/logout', [LogoutController::class, 'logout'])->middleware('auth:sanctum');
 
 
 //Categories
@@ -28,6 +29,8 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/navbar',[CategoryController::class , 'navbarCategories']);
 Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
 Route::get('/categories/{category:slug}/subcategories', [CategoryController::class, 'showWithSubcategories']);
+Route::get('/categories/{category:slug}/courses', [CategoryController::class, 'showWithLatestSixCourses']);
+Route::get('/categories/{category:slug}/all-courses', [CategoryController::class, 'showWithAllCourses']);
 
 
 
@@ -42,7 +45,7 @@ Route::get('/subcategories/{subcategory:slug}/courses', [SubCategoryController::
 //courses
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{course:slug}', [CourseController::class, 'show']);
-
+Route::get('/courses/{course:slug}/sections', [CourseController::class, 'showWithSections']);
 
 
 //sections

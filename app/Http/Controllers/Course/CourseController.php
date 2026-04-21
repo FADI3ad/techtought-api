@@ -13,7 +13,20 @@ class CourseController extends Controller
 
     public function store(StoreCourseRequest $request)
     {
-        $course = Course::create($request->validated());
+        $data = $request->validated();
+
+
+        if ($data['is_free']) {
+            $data['price'] = 0;
+        }
+
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('courses', 'public');
+            $data['image_path'] = $path;
+        }
+
+        $course = Course::create($data);
 
         return response()->json([
             'status' => 'success',
@@ -24,13 +37,15 @@ class CourseController extends Controller
                     "slug" => $course->slug,
                     "title" => $course->title,
                     "description" => $course->description,
-                    "image" => $course->image_path,
+                    "image_path" => $course->image_path
+                        ? asset('storage/' . $course->image_path)
+                        : null,
                     "requirements" => $course->requirements,
                     "language" => $course->lang,
                     "is_free" => $course->is_free,
                     "price" => $course->price,
-                    "subcategory" => $course->subCategory->name
-                    // "instructor_id" => $course->instructor_id,
+                    "category_id" => $course->category_id,
+                    "sub_category_id" => $course->sub_category_id,
                 ]
             ]
         ], 201);
@@ -49,7 +64,7 @@ class CourseController extends Controller
                     "slug" => $course->slug,
                     "title" => $course->title,
                     "description" => $course->description,
-                    "image" => $course->image_path,
+                    "image_path" => asset('storage/' . $course->image_path),
                     "is_free" => $course->is_free,
                     "price" => $course->price,
                     "subcategory" => $course->subCategory->name
@@ -71,6 +86,30 @@ class CourseController extends Controller
             'status' => 'success',
             'message' => 'Course deleted successfully'
         ], 200);
+    }
+
+
+
+
+
+
+    public function showWithSections(Course $course)
+    {
+        $sections = $course->sections()->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Course Sections retrieved successfully',
+            'data' => [
+                "course" => [
+                    "id" => $course->id,
+                    "slug" => $course->slug,
+                    "title" => $course->title,
+                    "description" => $course->description,
+                    "sections" => $sections
+                ]
+            ]
+        ], 200);
 
     }
 
@@ -78,5 +117,13 @@ class CourseController extends Controller
 
 
 
-    
+
+
+
+
+
+
+
+
+
 }
