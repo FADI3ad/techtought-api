@@ -28,10 +28,9 @@ class Lesson extends Model
 
 
 
-
-    // public function videos()
-    // {
-    //     return $this->hasMany(Video::class);
-    // }
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
 
 }

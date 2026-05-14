@@ -45,7 +45,7 @@ Route::get('/subcategories/{subcategory:slug}/courses', [SubCategoryController::
 //courses
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{course:slug}', [CourseController::class, 'show']);
-Route::get('/courses/{course:slug}/sections', [CourseController::class, 'showWithSections']);
+Route::get('/courses/{course:slug}/sections', [CourseController::class, 'showWithSectionsAndLessons']);
 
 
 //sections

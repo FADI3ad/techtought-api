@@ -92,38 +92,39 @@ class CourseController extends Controller
 
 
 
-
-    public function showWithSections(Course $course)
+    public function showWithSectionsAndLessons(Course $course)
     {
-        $sections = $course->sections()->get();
+        $course->load([
+            'sections.lessons'
+        ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Course Sections retrieved successfully',
+            'message' => 'Course retrieved successfully',
             'data' => [
-                "course" => [
-                    "id" => $course->id,
-                    "slug" => $course->slug,
-                    "title" => $course->title,
-                    "description" => $course->description,
-                    "sections" => $sections
-                ]
+                'id' => $course->id,
+                'slug' => $course->slug,
+                'title' => $course->title,
+                'description' => $course->description,
+
+                'sections' => $course->sections->map(function ($section) {
+                    return [
+                        'id' => $section->id,
+                        'name' => $section->name,
+                        'lessons_count' => $section->lessons->count(),
+
+                        'lessons' => $section->lessons->map(function ($lesson) {
+                            return [
+                                'id' => $lesson->id,
+                                'title' => $lesson->title,
+                                'video_url' => $lesson->video_path
+                                    ? asset('storage/' . $lesson->video_path)
+                                    : null,
+                            ];
+                        }),
+                    ];
+                }),
             ]
         ], 200);
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
