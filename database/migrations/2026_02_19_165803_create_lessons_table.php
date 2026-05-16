@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('video_path')->nullable();
-            $table->foreignId('section_id') ->constrained();
+            $table->foreignId('section_id') ->constrained('sections')->cascadeOnDelete();
             $table->timestamps();
         });
     }

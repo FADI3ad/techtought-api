@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comment;
 use Illuminate\Support\Str;
 
 class Course extends Model
@@ -33,6 +34,11 @@ class Course extends Model
 
 
 
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
+    }
+
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class);
@@ -47,5 +53,50 @@ class Course extends Model
     {
         return $this->hasMany(Section::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id')->withTimestamps();
+    }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorite_courses', 'course_id', 'user_id')->withTimestamps();
+    }
+
+    public function getAvgRatingAttribute()
+    {
+        return $this->reviews()->avg('rating') ?: 0;
+    }
+
+    public function getIsEnrolledAttribute()
+    {
+        if (!auth('sanctum')->check()) {
+            return false;
+        }
+
+        return $this->students()->where('user_id', auth('sanctum')->id())->exists();
+    }
+
+    public function getIsFavoriteAttribute()
+    {
+        if (!auth('sanctum')->check()) {
+            return false;
+        }
+
+        return $this->favoritedBy()->where('user_id', auth('sanctum')->id())->exists();
+    }
+
+    protected $appends = ['avg_rating', 'is_enrolled', 'is_favorite'];
 
 }

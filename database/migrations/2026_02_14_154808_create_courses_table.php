@@ -22,10 +22,13 @@ return new class extends Migration
             $table->boolean('is_free')->default(false);
             $table->decimal('price', 10, 2)->default(0)->nullable();
             $table->foreignId('sub_category_id')
-                ->constrained()
+                ->constrained('sub_categories')
                 ->cascadeOnDelete();
             $table->foreignId('category_id')
-                ->constrained()
+                ->constrained('categories')
+                ->cascadeOnDelete();
+            $table->foreignId('instructor_id')
+                ->constrained('instructor_account_requests')
                 ->cascadeOnDelete();
             $table->timestamps();
         });

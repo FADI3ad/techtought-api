@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Category\CategoryController;
-use App\Http\Controllers\Category\SubCategoryController;
-use App\Http\Controllers\Course\CourseController;
-use App\Http\Controllers\instructor\InstructorRequestController;
-use App\Http\Controllers\Lesson\LessonController;
-use App\Http\Controllers\Section\SectionController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LessonController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\InstructorRequestController;
+use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(function () {
 
     // Admin Auth
-    Route::post('/login', [AdminAuthController::class, 'login']);
+    // Route removed. Use unified /api/login endpoint.
 
 
     Route::middleware(['auth:sanctum', 'role:admin'])->group(callback: function () {
@@ -67,12 +69,29 @@ Route::prefix('admin')->group(function () {
         Route::delete('lessons/{lesson:slug}', [LessonController::class, 'destroy']);
 
 
+        //reviews (admin)
+        Route::get('/reviews', [ReviewController::class, 'index']);
+        Route::get('/reviews/{review}', [ReviewController::class, 'show']);
+        Route::put('/reviews/{review}', [ReviewController::class, 'update']);
+        Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
 
-        //instructor Reuests
-        // Route::get('/instructor-requests', [InstructorRequestController::class, 'index']);
-        // Route::post('/instructor-requests/{instructoraccountrequest:slug}/change-status', [InstructorRequestController::class, 'changeStatus']);
-        // Route::get('/instructor-requests/{InstructorRequest:slug}', [InstructorRequestController::class, 'show']);
-        // Route::delete('/instructor-requests/{InstructorRequest:slug}', [InstructorRequestController::class, 'destroy']);
+
+        //comments (admin)
+        Route::get('/comments', [CommentController::class, 'index']);
+        Route::get('/comments/{comment}', [CommentController::class, 'show']);
+        Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
+
+
+
+        //instructor Requests
+        Route::get('/instructor-requests', [InstructorRequestController::class, 'index']);
+        Route::get('/instructor-requests/{instructorAccountRequest:slug}', [InstructorRequestController::class, 'show']);
+        Route::delete('/instructor-requests/{instructorAccountRequest}', [InstructorRequestController::class, 'destroy']);
         Route::post('/instructor-requests/{id}/approve', [AdminController::class, 'approve']);
+
+        // Testimonials (admin)
+        Route::get('/testimonials', [TestimonialController::class, 'adminIndex']);
+        Route::patch('/testimonials/{testimonial}/toggle', [TestimonialController::class, 'toggleVisibility']);
+        Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy']);
     });
 });

@@ -35,12 +35,14 @@ class StoreCourseRequest extends FormRequest
                 'min:10',
             ],
 
-
+            'image_path' => ['image'],
 
             'lang' => [
                 'required',
                 Rule::in(['AR', 'EN']),
             ],
+
+            
 
             'price' => [
                 'nullable',
@@ -70,6 +72,16 @@ class StoreCourseRequest extends FormRequest
                 'integer',
                 'exists:categories,id',
             ],
+
+            'image_path' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
+
+
+
         ];
     }
 
