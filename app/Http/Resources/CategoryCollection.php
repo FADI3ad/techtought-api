@@ -20,6 +20,8 @@ class CategoryCollection extends ResourceCollection
                     'id' => $category->id,
                     'slug' => $category->slug,
                     'name' => $category->name,
+                    'description' => $category->description,
+                    'image' => $category->image_path ? asset('storage/' . $category->image_path) : null,
                 ];
             }),
         ];

@@ -25,4 +25,33 @@ class SubscriptionController extends Controller
             ]
         ], 201);
     }
+
+    //-------------------------------------------------
+    // List all subscriptions for Admin panel.
+    //--------------------------------------------------
+    public function adminIndex()
+    {
+        $subscriptions = Subscription::latest()->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Subscriptions retrieved successfully.',
+            'data' => [
+                'subscriptions' => $subscriptions
+            ]
+        ], 200);
+    }
+
+    //-------------------------------------------------
+    // Delete a subscription (unsubscribe).
+    //--------------------------------------------------
+    public function destroy(Subscription $subscription)
+    {
+        $subscription->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Subscription removed successfully.'
+        ], 200);
+    }
 }

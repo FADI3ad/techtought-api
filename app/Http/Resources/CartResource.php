@@ -18,6 +18,9 @@ class CartResource extends JsonResource
                 'is_free' => $this->course->is_free,
                 'image_path' => $this->course->image_path ? asset('storage/' . $this->course->image_path) : null,
                 'category' => $this->course->category->name,
+                'instructor' => [
+                    'name' => $this->course->instructor?->name,
+                ],
             ],
             'created_at' => $this->created_at->toDateTimeString(),
         ];

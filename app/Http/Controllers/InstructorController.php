@@ -68,4 +68,25 @@ class InstructorController extends Controller
             ]
         ]);
     }
+
+    public function reviews()
+    {
+        $user = Auth::user();
+
+        $reviews = Review::whereHas('course', function($query) use ($user) {
+            $query->where('instructor_id', $user->id);
+        })->with(['user', 'course'])->latest()->get();
+
+        $comments = Comment::whereHas('course', function($query) use ($user) {
+            $query->where('instructor_id', $user->id);
+        })->with(['user', 'course'])->latest()->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'reviews' => $reviews,
+                'comments' => $comments
+            ]
+        ]);
+    }
 }

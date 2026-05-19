@@ -12,7 +12,7 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $cartItems = Cart::where('user_id', $request->user()->id)
-            ->with(['course.category'])
+            ->with(['course.category', 'course.instructor'])
             ->latest()
             ->get();
 

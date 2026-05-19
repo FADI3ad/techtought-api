@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -22,6 +22,18 @@ class UpdateSubCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        $subcategoryParam = $this->route('subcategory') ?? $this->route('subCategory');
+        $subcategoryId = null;
+        
+        if ($subcategoryParam instanceof \App\Models\SubCategory) {
+            $subcategoryId = $subcategoryParam->id;
+        } elseif (is_string($subcategoryParam)) {
+            $subCategoryModel = \App\Models\SubCategory::where('slug', $subcategoryParam)->first();
+            $subcategoryId = $subCategoryModel ? $subCategoryModel->id : null;
+        } elseif (is_numeric($subcategoryParam)) {
+            $subcategoryId = $subcategoryParam;
+        }
+
         return [
             'name' => [
                 'required',
@@ -29,7 +41,7 @@ class UpdateSubCategoryRequest extends FormRequest
                 'min:3',
                 'max:100',
                 'regex:/^[^\d]+$/',
-                Rule::unique('sub_categories', 'name'),
+                Rule::unique('sub_categories', 'name')->ignore($subcategoryId),
             ],
             'category_id' => [
                 'required',

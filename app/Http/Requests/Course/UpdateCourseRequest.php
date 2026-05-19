@@ -8,12 +8,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCourseRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,14 +21,15 @@ class UpdateCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-              'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image_path' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'requirements' => 'nullable|string',
             'price' => 'nullable|numeric',
-            'language' => 'nullable|string|max:50',
+            'lang' => 'required|string|max:50',
             'is_free' => 'required|boolean',
             'category_id' => 'required|exists:categories,id',
+            'sub_category_id' => 'required|exists:sub_categories,id',
         ];
     }
 }

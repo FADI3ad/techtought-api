@@ -21,7 +21,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:100|unique:categories,name|regex:/^[^\d]+$/',
-            'description' => 'required|string|max:500',
+            'description' => 'nullable|string|max:500',
             'image_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }

@@ -23,6 +23,13 @@ class LoginController extends Controller
                 ], 401);
             }
 
+            if ($user->is_blocked) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Your account has been blocked. Please contact support.'
+                ], 403);
+            }
+
             $token = $user->createToken('mobile-app-token')->plainTextToken;
 
             return response()->json([

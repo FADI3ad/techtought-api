@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Category\StoreSubCategoryRequest;
-use App\Http\Requests\UpdateSubCategoryRequest;
+use App\Http\Requests\Category\UpdateSubCategoryRequest;
 use App\Models\SubCategory;
 
 class SubCategoryController extends Controller
@@ -69,19 +69,19 @@ class SubCategoryController extends Controller
     }
 
     // for admin
-    public function update(SubCategory $subCategory, UpdateSubCategoryRequest $request)
+    public function update(SubCategory $subcategory, UpdateSubCategoryRequest $request)
     {
-        $subCategory->update($request->validated());
+        $subcategory->update($request->validated());
 
         return response()->json([
             'status' => 'success',
             'message' => 'SubCategory updated successfully',
             'data' => [
                 'Subcategory' => [
-                    'id' => $subCategory->id,
-                    'name' => $subCategory->name,
-                    'slug' => $subCategory->slug,
-                    'category' => $subCategory->category->name
+                    'id' => $subcategory->id,
+                    'name' => $subcategory->name,
+                    'slug' => $subcategory->slug,
+                    'category' => $subcategory->category->name
                 ]
             ]
         ], 201);
@@ -102,7 +102,7 @@ class SubCategoryController extends Controller
     public function showWithCourses(SubCategory $subcategory)
     {
         $subcategory->load([
-            'courses:id,sub_category_id,slug,title'
+            'courses.instructor'
         ]);
         return response()->json([
             'status' => 'success',

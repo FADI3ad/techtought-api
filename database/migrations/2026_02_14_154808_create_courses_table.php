@@ -28,7 +28,7 @@ return new class extends Migration
                 ->constrained('categories')
                 ->cascadeOnDelete();
             $table->foreignId('instructor_id')
-                ->constrained('instructor_account_requests')
+                ->constrained('users')
                 ->cascadeOnDelete();
             $table->timestamps();
         });

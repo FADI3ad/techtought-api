@@ -17,7 +17,7 @@ class CategoryController extends Controller
     //--------------------------------------------------
     public function index()
     {
-        $categories = Category::select(['id', 'slug', 'name'])->get();
+        $categories = Category::all();
 
         return response()->json([
             'status' => 'success',
@@ -122,7 +122,7 @@ class CategoryController extends Controller
 
     public function showWithLatestSixCourses(Category $category)
     {
-        $category->load('latestCourses');
+        $category->load('latestCourses.instructor');
 
         $courses = $category->latestCourses->map(function ($course) {
             return [
@@ -135,6 +135,11 @@ class CategoryController extends Controller
                 'language' => $course->lang,
                 'is_free' => $course->is_free,
                 'price' => $course->price,
+                'is_enrolled' => $course->is_enrolled,
+                'is_favorite' => $course->is_favorite,
+                'instructor' => [
+                    'name' => $course->instructor?->name,
+                ],
             ];
         });
 
@@ -158,7 +163,16 @@ class CategoryController extends Controller
 
     public function showWithAllCourses(Category $category)
     {
-        $category->load('courses');
+        $category->load('courses.instructor');
+
+        $courses = $category->courses->map(function ($course) {
+            $courseArray = $course->toArray();
+            $courseArray['image'] = $course->image_path ? asset('storage/' . $course->image_path) : null;
+            $courseArray['instructor'] = [
+                'name' => $course->instructor?->name,
+            ];
+            return $courseArray;
+        });
 
         return response()->json([
             'status' => 'success',
@@ -169,9 +183,9 @@ class CategoryController extends Controller
                     'slug' => $category->slug,
                     'name' => $category->name,
                     'image' => $category->image_path ? asset('storage/' . $category->image_path) : null,
-                    'courses' => $category->courses,
+                    'courses' => $courses,
                     'meta' => [
-                        'total courses' => $category->courses->count()
+                        'total courses' => $courses->count()
                     ]
                 ]
             ]

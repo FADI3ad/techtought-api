@@ -13,6 +13,7 @@ class Course extends Model
 
     protected $table = 'courses';
 
+    protected $with = ['instructor'];
 
     protected $guarded = [
         'id',
@@ -97,6 +98,16 @@ class Course extends Model
         return $this->favoritedBy()->where('user_id', auth('sanctum')->id())->exists();
     }
 
-    protected $appends = ['avg_rating', 'is_enrolled', 'is_favorite'];
+    public function lessons()
+    {
+        return $this->hasManyThrough(Lesson::class, Section::class);
+    }
+
+    public function getLessonsCountAttribute()
+    {
+        return $this->lessons()->count();
+    }
+
+    protected $appends = ['avg_rating', 'is_enrolled', 'is_favorite', 'lessons_count'];
 
 }

@@ -54,6 +54,7 @@ Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{course:slug}', [CourseController::class, 'show']);
 Route::get('/courses/{course:slug}/sections', [CourseController::class, 'showWithSectionsAndLessons']);
 Route::get('/top-rated-courses', [CourseController::class, 'topRated']);
+Route::get('/global-search', [CourseController::class, 'globalSearch']);
 
 
 //sections
@@ -81,6 +82,16 @@ Route::post('/subscribe', [SubscriptionController::class, 'store']);
 
 // Testimonials
 Route::get('/testimonials', [TestimonialController::class, 'index']);
+
+// Settings
+Route::get('/settings', [App\Http\Controllers\SettingController::class, 'index']);
+
+// Contact (Public)
+Route::post('/contacts', [App\Http\Controllers\ContactController::class, 'store']);
+
+// Instructor Request (Public)
+Route::post('/instructor-requests', [App\Http\Controllers\InstructorRequestController::class, 'store']);
+
 
 
 Route::middleware('auth:sanctum')->group(function () {

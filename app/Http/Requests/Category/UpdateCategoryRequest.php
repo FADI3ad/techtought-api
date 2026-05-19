@@ -21,8 +21,8 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:100|regex:/^[^\d]+$/|unique:categories,name,' . $this->category->id,
-            'description' => 'required|string|max:500',
-            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'nullable|string|max:500',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

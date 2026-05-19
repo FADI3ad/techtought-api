@@ -7,8 +7,6 @@ use App\Http\Controllers\InstructorRequestController;
 use App\Http\Controllers\InstructorController;
 use Illuminate\Support\Facades\Route;
 
-// Public Instructor Request (for applicants)
-Route::post('/instructor-requests', [InstructorRequestController::class, 'store']);
 
 // Protected Instructor Routes
 Route::middleware(['auth:sanctum', 'role:instructor'])->group(function () {
@@ -16,6 +14,7 @@ Route::middleware(['auth:sanctum', 'role:instructor'])->group(function () {
     Route::get('/dashboard', [InstructorController::class, 'dashboard']);
     Route::get('/my-courses', [InstructorController::class, 'courses']);
     Route::get('/my-courses/{slug}', [InstructorController::class, 'courseDetails']);
+    Route::get('/reviews', [InstructorController::class, 'reviews']);
 
     //courses management
     Route::post('/courses', [CourseController::class, 'store']);

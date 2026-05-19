@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\InstructorRequestController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,9 +30,9 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware(['auth:sanctum', 'role:admin'])->group(callback: function () {
 
-
-
-
+        // Users Management
+        Route::get('/users', [AdminUserController::class, 'index']);
+        Route::patch('/users/{user}/toggle-block', [AdminUserController::class, 'toggleBlock']);
         //Categories
         Route::get('/categories', [CategoryController::class, 'index']);  // Tested and working fine
         Route::post('/categories', [CategoryController::class, 'store']); // Tested and working fine
@@ -93,5 +96,18 @@ Route::prefix('admin')->group(function () {
         Route::get('/testimonials', [TestimonialController::class, 'adminIndex']);
         Route::patch('/testimonials/{testimonial}/toggle', [TestimonialController::class, 'toggleVisibility']);
         Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy']);
+
+        // Settings
+        Route::get('/settings', [SettingController::class, 'index']);
+        Route::post('/settings', [SettingController::class, 'update']);
+
+        // Contacts
+        Route::get('/contacts', [ContactController::class, 'index']);
+        Route::patch('/contacts/{contact}/read', [ContactController::class, 'markAsRead']);
+        Route::delete('/contacts/{contact}', [ContactController::class, 'destroy']);
+
+        // Subscriptions
+        Route::get('/subscriptions', [\App\Http\Controllers\SubscriptionController::class, 'adminIndex']);
+        Route::delete('/subscriptions/{subscription}', [\App\Http\Controllers\SubscriptionController::class, 'destroy']);
     });
 });

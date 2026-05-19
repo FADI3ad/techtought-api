@@ -29,6 +29,10 @@ class EnrollmentController extends Controller
                         'is_free' => $course->is_free,
                         'price' => $course->price,
                         'avg_rating' => $course->reviews_avg_rating ?? 0,
+                        'is_enrolled' => true,
+                        'instructor' => [
+                            'name' => $course->instructor?->name,
+                        ],
                     ];
                 })
             ]

@@ -16,7 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'role' => EnsureUserHasRole::class
+            'role' => EnsureUserHasRole::class,
+            'check.blocked' => \App\Http\Middleware\CheckBlocked::class,
+        ]);
+        
+        $middleware->appendToGroup('api', [
+            \App\Http\Middleware\CheckBlocked::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
