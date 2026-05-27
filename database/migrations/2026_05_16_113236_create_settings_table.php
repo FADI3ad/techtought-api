@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('favicon_path')->nullable();
             $table->string('footer_text')->nullable();
 
+            $table->json('theme_settings')->nullable();
             $table->timestamps();
         });
     }

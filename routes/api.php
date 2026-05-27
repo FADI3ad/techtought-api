@@ -15,6 +15,8 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\FavoriteCourseController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\TodoController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -118,6 +120,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Testimonials
     Route::post('/testimonials', [TestimonialController::class, 'store']);
+
+    // Todos
+    Route::apiResource('todos', TodoController::class);
+    Route::patch('todos/{todo}/toggle', [TodoController::class, 'toggleStatus']);
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword']);
 });
 
 

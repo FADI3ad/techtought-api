@@ -27,13 +27,12 @@ Route::prefix('admin')->group(function () {
     // Admin Auth
     // Route removed. Use unified /api/login endpoint.
 
-
     Route::middleware(['auth:sanctum', 'role:admin'])->group(callback: function () {
 
         // Users Management
         Route::get('/users', [AdminUserController::class, 'index']);
         Route::patch('/users/{user}/toggle-block', [AdminUserController::class, 'toggleBlock']);
-        //Categories
+        //Categories 
         Route::get('/categories', [CategoryController::class, 'index']);  // Tested and working fine
         Route::post('/categories', [CategoryController::class, 'store']); // Tested and working fine
         Route::get('/categories/{category:slug}', [CategoryController::class, 'show']); // Tested and working fine

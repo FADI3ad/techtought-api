@@ -72,4 +72,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Course::class, 'favorite_courses', 'user_id', 'course_id')->withTimestamps();
     }
+
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
 }
