@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\CourseController;
@@ -31,6 +32,10 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LogoutController::class, 'logout'])->middleware('auth:sanctum');
+
+// Social OAuth Routes
+Route::get('/login/{provider}', [SocialAuthController::class, 'redirectToProvider']);
+Route::post('/login/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback']);
 
 
 //Categories
